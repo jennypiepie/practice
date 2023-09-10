@@ -25,25 +25,33 @@ export default class Scene {
         this.renderer = new THREE.WebGLRenderer({ canvas: dom });
         this.width = this.container.offsetWidth;
         this.height = this.container.offsetHeight;
-        this.camera = new THREE.PerspectiveCamera(75, this.width / this.height, 0.1, 100);
+        this.camera = new THREE.PerspectiveCamera(75, this.width / this.height, 0.1, 200);
     }
 
     init() {
+        this.setCamera();
         this.setRenderer();     
         this.setupResize();
+        this.setControls();
+        this.setLight();
     }
 
-    load() { }
+    load() {
+        this.addObject();
+        this.render();
+    }
     
-    setCamera() { }
+    setCamera() { 
+        this.camera.position.set(1, 2, 8);
+    }
 
     setRenderer() {
         this.renderer.setSize(this.width, this.height);
         this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        this.renderer.setClearColor(0x000000, 1);
-        this.renderer.outputColorSpace = THREE.SRGBColorSpace;
-        this.renderer.shadowMap.enabled = true;
-        this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+        // this.renderer.setClearColor(0xeeeeee, 1);
+        // this.renderer.outputColorSpace = THREE.SRGBColorSpace;
+        // this.renderer.shadowMap.enabled = true;
+        // this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     }
     setControls() {
         this.controls = new OrbitControls(this.camera, this.container);
@@ -82,10 +90,8 @@ export default class Scene {
 
     addObject() {}
 
-    addLight() {
-        const light1 = new THREE.AmbientLight(0xffffff, 0.3);
+    setLight() {
+        const light1 = new THREE.AmbientLight(0xffffff, 0.9);
         this.scene.add(light1);
     }
-
-    event() {}
 }

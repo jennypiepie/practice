@@ -44,31 +44,35 @@ export default class Sketch extends Scene {
 
         this.init();
         this.load();
-  
     }
 
     setCamera() {
         this.camera.position.set(4, 2, 2);
     }
 
+    setRenderer() {
+        super.setRenderer();
+        // this.renderer.outputColorSpace = THREE.SRGBColorSpace;
+        this.renderer.shadowMap.enabled = true;
+        this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    }
+
     init() {
-        this.setCamera();
-        this.setRenderer();
-        this.setControls();
-        this.setLoader();      
-        this.setupResize();
-        this.addLight();
-        this.event();
+        super.init();
+        this.setLoader();
     }
 
     load() {
         let gms: THREE.BufferGeometry[] = [];
         this.loader?.load(tank, (gltf) => {
             this.tank = gltf.scene;
+            let t = 0;
             this.tank.traverse((m) => {
+                t++;
                 if (m instanceof THREE.Mesh) {
                     m.castShadow = m.receiveShadow = true;
                     m.geometry.computeVertexNormals();
+                    if(t%4===0) m.material = new THREE.MeshStandardMaterial({ wireframe: true, color: 0x00ffff });
                     gms.push(m.geometry)
                 }
             })
@@ -81,6 +85,7 @@ export default class Sketch extends Scene {
                 this.sunflower = gltf.scene.children[0].children[0].children[0] as THREE.Mesh;
                 this.addObject();
                 this.render();
+                this.event();
             })
         })
     }
@@ -90,9 +95,7 @@ export default class Sketch extends Scene {
             this.rescale(i);
         }
         this.flowers!.instanceMatrix.needsUpdate = true;
-        this.controls?.update();
-        this.renderer.render(this.scene, this.camera);
-        requestAnimationFrame(this.render.bind(this));
+        super.render();
     }
 
     rescale(i: number) {
@@ -153,7 +156,7 @@ export default class Sketch extends Scene {
         this.scene.add(this.flowers)
     }
 
-    addLight() {
+    setLight() {
         const light1 = new THREE.AmbientLight(0xffffff, 0.3);
 
         const light2 = new THREE.DirectionalLight(0xffffff, 0.8*Math.PI);
