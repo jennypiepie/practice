@@ -42,7 +42,7 @@ export default class Scene {
     }
     
     setCamera() { 
-        this.camera.position.set(1, 2, 8);
+        this.camera.position.set(1, 2, 6);
     }
 
     setRenderer() {
@@ -79,7 +79,7 @@ export default class Scene {
     }
 
     render() {
-        this.controls?.update();
+        // this.controls?.update();
         this.renderer.render(this.scene, this.camera);
         this.frameId = requestAnimationFrame(this.render.bind(this));
     }

@@ -5,6 +5,7 @@ import vertex from './shaders/vertexParticles.glsl';
 import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
 import gsap from 'gsap';
 
 interface ConProps{
@@ -18,7 +19,6 @@ export default class Sketch extends Scene {
     plane?: THREE.Points;
     gui?: dat.GUI;
     settings?: any;
-    renderScene?: RenderPass;
     bloomPass?: UnrealBloomPass;
     composer?: EffectComposer;
     video: HTMLVideoElement;
@@ -104,7 +104,7 @@ export default class Sketch extends Scene {
         // this.bloomPass!.threshold = this.settings.threshold;
 		// this.bloomPass!.strength = this.settings.strength;
 		// this.bloomPass!.radius = this.settings.radius;
-        this.controls?.update();
+        // this.controls?.update();
         this.frameId = requestAnimationFrame(this.render.bind(this));
         this.composer?.render();
     }
@@ -121,15 +121,19 @@ export default class Sketch extends Scene {
     }
 
     addPost() {
-        this.renderScene = new RenderPass( this.scene, this.camera );
+        const renderScene = new RenderPass( this.scene, this.camera );
 
 		this.bloomPass = new UnrealBloomPass( new THREE.Vector2( window.innerWidth, window.innerHeight ), 1.5, 0.4, 0.85 );
 		this.bloomPass.threshold = this.settings.threshold;
 		this.bloomPass.strength = this.settings.strength;
-		this.bloomPass.radius = this.settings.radius;
+        this.bloomPass.radius = this.settings.radius;
+        
+        const outputPass = new OutputPass();
+
 		this.composer = new EffectComposer( this.renderer );
-		this.composer.addPass( this.renderScene );
-		this.composer.addPass( this.bloomPass );
+		this.composer.addPass( renderScene );
+        this.composer.addPass(this.bloomPass);
+        this.composer.addPass( outputPass );
     }
 
     addObject() {
