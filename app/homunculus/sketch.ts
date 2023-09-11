@@ -8,6 +8,9 @@ import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
 import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
 import { CustomPass } from './CustomPass.js';
 
+import studio from '@theatre/studio';
+import { getProject, types } from '@theatre/core';
+
 interface ConProps{
     dom: HTMLCanvasElement
 }
@@ -37,13 +40,32 @@ export default class Sketch extends Scene {
             scale: 1,
         }
         this.textures = this.urls.map(item => new THREE.TextureLoader().load(item.url));  
-        this.setGUI();
+        // this.setGUI();
+        
         this.init();
         this.initPost();
         this.load();
+
+        studio.initialize();
+        const project = getProject('Homunculus');
+        const sheet = project.sheet('scene');
+        const distortion = sheet.object('Distortion', {
+            progress: types.number(0, { range: [0, 1] }),
+            // bar: true,
+            // baz: "string",
+            //   rotation: types.compound({
+            // x: types.number(mesh.rotation.x, { range: [-2, 2] }),
+            // y: types.number(mesh.rotation.y, { range: [-2, 2] }),
+            // z: types.number(mesh.rotation.z, { range: [-2, 2] }),
+            //   }),
+        });
+        distortion.onValuesChange(newValue => {
+            // console.log(newValue);
+            this.effect1!.uniforms['progress'].value = newValue.progress;
+        })
     }
 
-     async setGUI() {
+    async setGUI() {
         const dat = await import('dat.gui');
         if (!this.gui) {
             this.gui = new dat.GUI();
@@ -68,7 +90,7 @@ export default class Sketch extends Scene {
         this.time += 0.01;
         this.material!.uniforms.time.value = this.time;
         this.effect1!.uniforms['time'].value = this.time;
-        this.effect1!.uniforms['progress'].value = this.settings.progress;
+        // this.effect1!.uniforms['progress'].value = this.settings.progress;
         this.effect1!.uniforms[ 'scale' ].value = this.settings.scale;
         
         this.frameId = requestAnimationFrame(this.render.bind(this));

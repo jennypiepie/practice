@@ -2,6 +2,9 @@
 import { useEffect, useRef } from 'react';
 import Sketch from './sketch';
 
+// import studio from '@theatre/studio';
+// import { getProject, types } from '@theatre/core';
+
 export default function Homunculus() {
     const canvasRef = useRef<HTMLCanvasElement>(null);
 
