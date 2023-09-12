@@ -13,7 +13,7 @@ export default class Scene {
     renderer: THREE.WebGLRenderer;
     width: number;
     height: number;
-    camera: THREE.PerspectiveCamera;
+    camera: THREE.PerspectiveCamera | THREE.OrthographicCamera;
     controls?: OrbitControls;
     loader?: GLTFLoader;
     dracoLoader?: DRACOLoader;
@@ -72,7 +72,7 @@ export default class Scene {
         this.width = window.innerWidth;
         this.height = window.innerHeight;
 
-        this.camera.aspect = this.width / this.height;
+        (this.camera as THREE.PerspectiveCamera).aspect = this.width / this.height;
         this.camera.updateProjectionMatrix();
 
         this.renderer.setSize(this.width, this.height);
