@@ -1,7 +1,5 @@
 varying vec2 vUv;
 uniform float time;
-uniform float distortion;
-
 
 void main() {
     vUv = uv;

@@ -188,7 +188,7 @@ export default class Sketch extends Scene {
         });
 
 
-        const rGM = new THREE.PlaneGeometry(64, 64, 1, 1);
+        const rGM = new THREE.PlaneGeometry(32, 32, 1, 1);
         this.rMeshes = [];
 
         for (let i = 0; i < this.max; i++){
