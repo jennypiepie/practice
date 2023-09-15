@@ -20,7 +20,14 @@ const nextConfig = {
                 test: /\.(jpe?g|png|svg|gif)/i,
                 type: 'asset',
                 generator: {
-                    filename: 'imgs/[hash][ext][query]' // 局部指定输出位置
+                    filename: 'static/chunks/imgs/[hash][ext][query]'
+                }
+            },
+            {
+                test: /\.json$/,
+                type: 'json',
+                generator: {
+                    filename: 'static/chunks/json/[hash][ext][query]'
                 }
             }
         )
