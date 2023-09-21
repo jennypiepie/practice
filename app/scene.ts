@@ -33,7 +33,7 @@ export default class Scene {
         this.setRenderer();     
         this.setupResize();
         this.setControls();
-        this.setLight();
+        this.addLights();
     }
 
     load() {
@@ -90,7 +90,7 @@ export default class Scene {
 
     addObject() {}
 
-    setLight() {
+    addLights() {
         const light1 = new THREE.AmbientLight(0xffffff, 0.9);
         this.scene.add(light1);
     }

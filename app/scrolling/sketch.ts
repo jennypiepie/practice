@@ -76,7 +76,7 @@ export default class Sketch extends Scene {
         this.setCamera();
         this.setRenderer();     
         this.setupResize();
-        this.setLight();
+        this.addLights();
     }
 
     setRenderer() {

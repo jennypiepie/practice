@@ -156,7 +156,7 @@ export default class Sketch extends Scene {
         this.scene.add(this.flowers)
     }
 
-    setLight() {
+    addLights() {
         const light1 = new THREE.AmbientLight(0xffffff, 0.3);
 
         const light2 = new THREE.DirectionalLight(0xffffff, 0.8*Math.PI);
