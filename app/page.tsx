@@ -1,9 +1,9 @@
 import Link from "next/link";
 
-const routes = ['growing', 'blossom', 'homunculus', 'pepyaka','scrolling','mobius'];
+const routes = ['growing', 'blossom', 'homunculus', 'pepyaka', 'scrolling', 'mobius', 'mav'];
 
 export default function Home() {
-  
+
   return (<>
     {/* <div>HI~</div> */}
     {routes.map((route) => <div key={route}>

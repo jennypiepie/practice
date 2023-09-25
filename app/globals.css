@@ -2,10 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
+h1 {
+  @apply text-2xl font-bold;
+}
+h2 {
+  @apply text-xl font-bold;
+}
+h3 {
+  @apply text-lg font-bold;
+}
+a {
+  @apply text-blue-600 underline;
+}
+
 html,
 body {
     margin: 0;
-    overflow: hidden;
 }
 
 canvas{
@@ -14,4 +26,5 @@ canvas{
 #canvas{
     width: 100vw;
     height: 100vh;
+    overflow: hidden;
 }
