@@ -35,7 +35,6 @@ export default function Mav() {
                     trigger: child,
                     scrub: 1,
                     toggleActions: 'restart pause reverse pause',
-
                 },
                 duration: 0.5,
                 stagger: 0.07,

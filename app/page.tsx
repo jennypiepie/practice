@@ -1,6 +1,7 @@
 import Link from "next/link";
 
-const routes = ['growing', 'blossom', 'homunculus', 'pepyaka', 'scrolling', 'mobius', 'mav'];
+const routes = ['growing', 'blossom', 'homunculus', 'pepyaka', 'scrolling', 'mobius', 'mav',
+  'slider'];
 
 export default function Home() {
 

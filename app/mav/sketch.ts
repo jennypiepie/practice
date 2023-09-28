@@ -46,7 +46,7 @@ export default class Sketch extends Scene {
                 }
             })
 
-            this.addObject();
+            // this.addObject();
             this.render();
         })
     }
