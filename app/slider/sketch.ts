@@ -97,6 +97,9 @@ export default class Sketch {
         this.app.ticker.add(() => {
             this.app.renderer.render(this.container);
             this.direction = this.scroll > 0 ? -1 : 1;
+            if (Math.abs(this.scrollTarget) > 2) {
+                this.scrollTarget *= 0.9;
+            }
             this.scroll -= (this.scroll - this.scrollTarget) * 0.1;
             this.scroll *= 0.9;
             this.thumbs.forEach(th => {
@@ -177,7 +180,7 @@ export default class Sketch {
 
     scrollEvent() {
         document.addEventListener('wheel', (e: any) => {
-            this.scrollTarget = e.wheelDelta;
+            this.scrollTarget = e.wheelDelta / 2;
         })
     }
 
