@@ -3,7 +3,7 @@ import Scene from '../scene';
 import fragment from './shaders/fragment.glsl';
 import vertex from './shaders/vertex.glsl';
 import angel from '../../public/models/angel.glb';
-import './extend.js'
+import { CustomMaterial, extendMaterial } from './extend.js';
 
 interface ConProps {
     dom: HTMLCanvasElement
@@ -87,9 +87,9 @@ export default class Sketch extends Scene {
         this.material1 = new THREE.MeshStandardMaterial({ color: 0x00ffff });
 
         //@ts-ignore
-        this.material1 = THREE.extendMaterial(THREE.MeshStandardMaterial, {
+        this.material1 = extendMaterial(THREE.MeshStandardMaterial, {
             //@ts-ignore
-            class: THREE.CustomMaterial,  // In this case ShaderMaterial would be fine too, just for some features such as envMap this is required
+            class: CustomMaterial,  // In this case ShaderMaterial would be fine too, just for some features such as envMap this is required
 
             vertexHeader: `
                 attribute float aRandom;
@@ -164,7 +164,7 @@ export default class Sketch extends Scene {
                     m.geometry = geometry.toNonIndexed();
                     m.castShadow = true;
                     //@ts-ignore
-                    m.customDepthMaterial = THREE.extendMaterial(THREE.MeshDepthMaterial, {
+                    m.customDepthMaterial = extendMaterial(THREE.MeshDepthMaterial, {
                         template: this.material1
                     });
                     this.scene.add(m);
@@ -216,7 +216,7 @@ export default class Sketch extends Scene {
                     // this.mesh = new THREE.Mesh(geometry, this.material1);
 
                     // //@ts-ignore
-                    // this.mesh!.customDepthMaterial = THREE.extendMaterial(THREE.MeshDepthMaterial, {
+                    // this.mesh!.customDepthMaterial = extendMaterial(THREE.MeshDepthMaterial, {
 
                     //     template: this.material1
 

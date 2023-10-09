@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 const routes = ['growing', 'blossom', 'homunculus', 'pepyaka', 'scrolling', 'mobius', 'mav',
-  'slider', 'pixi', 'imageTransition', 'alireza', 'augusto'];
+  'slider', 'pixi', 'imagetransition', 'alireza', 'augusto'];
 
 export default function Home() {
 
