@@ -875,7 +875,7 @@ const mapFlags = {
 };
 
 
-function useUniformPairs(instance, uniforms) {
+function createUniformPairs(instance, uniforms) {
 
     // Only pairs with initial values other than null or zero needed
 
@@ -905,9 +905,9 @@ function useUniformPairs(instance, uniforms) {
 
 }
 
-function useUniforms(name, object, uniforms) {
+function createUniforms(name, object, uniforms) {
 
-    useUniformPairs(object.uniforms, uniforms);
+    createUniformPairs(object.uniforms, uniforms);
 
     if (object.common !== false)
         cloneUniforms(UniformsLib.common, uniforms);
@@ -1243,7 +1243,7 @@ function mapUniforms(name, uniforms, object) {
 
         // Only use declared and necessary
 
-        return useUniforms(name, object, uniforms); // cloneUniforms( THREE.ShaderLib[ name ].uniforms, uniforms, true );
+        return createUniforms(name, object, uniforms); // cloneUniforms( THREE.ShaderLib[ name ].uniforms, uniforms, true );
 
     }
 
