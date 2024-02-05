@@ -8,7 +8,7 @@ import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
 import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
 import gsap from 'gsap';
 
-interface ConProps{
+interface ConProps {
     dom: HTMLCanvasElement
 }
 
@@ -34,10 +34,11 @@ export default class Sketch extends Scene {
         }
         // this.setGUI();
         this.init();
+        this.fixed();
         this.addPost();
         this.load();
 
-        this.video?.addEventListener('ended', ()=>this.animate())
+        this.video?.addEventListener('ended', () => this.animate())
     }
 
     animate() {
@@ -49,29 +50,29 @@ export default class Sketch extends Scene {
         gsap.to(this.material!.uniforms.progress, {
             duration: 1,
             value: 1,
-            delay:1.5,
+            delay: 1.5,
         })
         gsap.to(this.material!.uniforms.distortion, {
             duration: 2,
             value: 2,
-            ease:'power2.inOut',
+            ease: 'power2.inOut',
         })
         gsap.to(this.bloomPass!, {
             duration: 2,
             strength: 7,
-            ease:'power2.in',
+            ease: 'power2.in',
         })
         gsap.to(this.material!.uniforms.distortion, {
             duration: 2,
             value: 0,
             delay: 2,
-            ease:'power2.inOut',
+            ease: 'power2.inOut',
         })
         gsap.to(this.bloomPass!, {
             duration: 2,
             strength: 0,
             delay: 2,
-            ease:'power2.out',
+            ease: 'power2.out',
             onComplete: () => {
                 this.video.currentTime = 0;
                 gsap.to(this.video, {
@@ -96,14 +97,14 @@ export default class Sketch extends Scene {
         super.setRenderer();
         this.renderer.outputColorSpace = THREE.LinearSRGBColorSpace;
     }
-     
+
     render() {
         this.time += 0.05;
         this.material!.uniforms.time.value = this.time;
         // this.material!.uniforms.distortion.value = this.settings.distortion;
         // this.bloomPass!.threshold = this.settings.threshold;
-		// this.bloomPass!.strength = this.settings.strength;
-		// this.bloomPass!.radius = this.settings.radius;
+        // this.bloomPass!.strength = this.settings.strength;
+        // this.bloomPass!.radius = this.settings.radius;
         // this.controls?.update();
         this.frameId = requestAnimationFrame(this.render.bind(this));
         this.composer?.render();
@@ -121,19 +122,19 @@ export default class Sketch extends Scene {
     }
 
     addPost() {
-        const renderScene = new RenderPass( this.scene, this.camera );
+        const renderScene = new RenderPass(this.scene, this.camera);
 
-		this.bloomPass = new UnrealBloomPass( new THREE.Vector2( window.innerWidth, window.innerHeight ), 1.5, 0.4, 0.85 );
-		this.bloomPass.threshold = this.settings.threshold;
-		this.bloomPass.strength = this.settings.strength;
+        this.bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.5, 0.4, 0.85);
+        this.bloomPass.threshold = this.settings.threshold;
+        this.bloomPass.strength = this.settings.strength;
         this.bloomPass.radius = this.settings.radius;
-        
+
         const outputPass = new OutputPass();
 
-		this.composer = new EffectComposer( this.renderer );
-		this.composer.addPass( renderScene );
+        this.composer = new EffectComposer(this.renderer);
+        this.composer.addPass(renderScene);
         this.composer.addPass(this.bloomPass);
-        this.composer.addPass( outputPass );
+        this.composer.addPass(outputPass);
     }
 
     addObject() {
@@ -143,19 +144,19 @@ export default class Sketch extends Scene {
         // this.scene.add(axes);
 
         this.geometry = new THREE.PlaneGeometry(480 * 1.914, 820 * 1.914, 480, 820);
-        
+
         this.material = new THREE.ShaderMaterial({
             uniforms: {
                 time: { value: 0 },
                 progress: { value: 0 },
-                ft:{ value: new THREE.TextureLoader().load('/imgs/02-first.jpg') },
+                ft: { value: new THREE.TextureLoader().load('/imgs/02-first.jpg') },
                 t: { value: new THREE.TextureLoader().load('/imgs/02-end.jpg') },
                 distortion: { value: 0 },
-                
+
             },
             vertexShader: vertex,
             fragmentShader: fragment,
-            
+
         });
 
         this.plane = new THREE.Points(this.geometry, this.material);

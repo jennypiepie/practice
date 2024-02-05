@@ -35,6 +35,7 @@ export default class Sketch extends Scene {
         // this.setGUI();
 
         this.init();
+        this.fixed();
         this.load();
 
 
@@ -89,7 +90,7 @@ export default class Sketch extends Scene {
 
 
     addObject() {
-        this.imageAspect = 737 / 1280;
+        this.imageAspect = 620 / 1280;
         let a1, a2;
         if (this.height / this.width > this.imageAspect) {
             a1 = (this.width / this.height) * this.imageAspect;

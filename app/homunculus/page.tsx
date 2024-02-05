@@ -6,7 +6,7 @@ export default function Homunculus() {
     const canvasRef = useRef<HTMLCanvasElement>(null);
 
     useEffect(() => {
-        const  sketch = canvasRef.current && new Sketch({ dom: canvasRef.current });
+        const sketch = canvasRef.current && new Sketch({ dom: canvasRef.current });
         return () => {
             sketch?.stop();
         }

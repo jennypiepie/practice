@@ -3,7 +3,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
 
-interface ConProps{
+interface ConProps {
     dom: HTMLCanvasElement
 }
 
@@ -18,6 +18,7 @@ export default class Scene {
     loader?: GLTFLoader;
     dracoLoader?: DRACOLoader;
     frameId?: number;
+    gui?: dat.GUI;
 
     constructor({ dom }: ConProps) {
         this.container = dom;
@@ -30,7 +31,7 @@ export default class Scene {
 
     init() {
         this.setCamera();
-        this.setRenderer();     
+        this.setRenderer();
         this.setupResize();
         this.setControls();
         this.addLights();
@@ -40,8 +41,8 @@ export default class Scene {
         this.addObject();
         this.render();
     }
-    
-    setCamera() { 
+
+    setCamera() {
         this.camera.position.set(1, 2, 6);
     }
 
@@ -86,12 +87,21 @@ export default class Scene {
 
     stop = () => {
         cancelAnimationFrame(this.frameId || 1);
+        if (this.gui) {
+            this.gui.destroy();
+        }
     }
 
-    addObject() {}
+    addObject() { }
 
     addLights() {
         const light1 = new THREE.AmbientLight(0xffffff, 0.9);
         this.scene.add(light1);
+    }
+
+    fixed() {
+        this.controls!.enableRotate = false;
+        this.controls!.enableZoom = false;
+        this.controls!.enablePan = false;
     }
 }

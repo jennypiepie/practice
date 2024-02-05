@@ -35,6 +35,7 @@ export default class Sketch extends Scene {
             this.width, this.height, {}
         );
         this.init();
+        this.fixed();
         this.addBlob();
         this.load();
         this.raycasterEvent();

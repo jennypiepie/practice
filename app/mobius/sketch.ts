@@ -6,7 +6,7 @@ import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js';
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js';
 import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 
-interface ConProps{
+interface ConProps {
     dom: HTMLCanvasElement
 }
 
@@ -25,6 +25,7 @@ export default class Sketch extends Scene {
     constructor({ dom }: ConProps) {
         super({ dom });
         this.init();
+        this.fixed();
         this.scene.add(this.group);
         this.scene1.add(this.group1);
         this.load();
@@ -82,7 +83,7 @@ export default class Sketch extends Scene {
         this.scene1.add(light3.clone());
     }
 
-    getMaterial(uniforms:any) {
+    getMaterial(uniforms: any) {
         let material = new THREE.MeshStandardMaterial({ color: 0xcccccc });
         material.onBeforeCompile = (shader) => {
             // shader.uniforms = { ...this.uniforms };
@@ -152,7 +153,7 @@ export default class Sketch extends Scene {
                     float dontshow = step(1., vDiscard);
                     if(dontshow>0.5) discard;
                 `
-            )  
+            )
 
         }
 
@@ -189,7 +190,7 @@ export default class Sketch extends Scene {
         this.material1 = this.getMaterial(this.uniforms1);
 
         const loader = new FontLoader();
-        loader.load('/font/font.json',  (font) => {
+        loader.load('/font/font.json', (font) => {
             let geometry = new TextGeometry('IMPOSSIBLE', {
                 font: font,
                 size: 0.1,
@@ -211,10 +212,10 @@ export default class Sketch extends Scene {
 
 
             let clones = [];
-            for (let i = 0; i < 4; i++){
+            for (let i = 0; i < 4; i++) {
                 let clone = final1.clone();
                 clone.center();
-                clone.rotateX(i * Math.PI/2);
+                clone.rotateX(i * Math.PI / 2);
                 clone.translate(final1.boundingBox!.max.x * i * 2, 0, 0);
                 clones.push(clone);
             }
@@ -222,7 +223,7 @@ export default class Sketch extends Scene {
             let superFinal = mergeGeometries(clones);
             superFinal.center();
             superFinal.computeBoundingBox();
-            
+
 
             this.uniforms.uMin.value = superFinal.boundingBox?.min;
             this.uniforms.uMax.value = superFinal.boundingBox?.max;
@@ -231,8 +232,8 @@ export default class Sketch extends Scene {
             this.uniforms1.uMax.value = superFinal.boundingBox?.max;
 
             const mesh = new THREE.Mesh(superFinal, this.material);
-            const mesh1 = new THREE.Mesh(superFinal,this.material1);
-            
+            const mesh1 = new THREE.Mesh(superFinal, this.material1);
+
             this.group.add(mesh);
             this.group1.add(mesh1);
 
