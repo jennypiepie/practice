@@ -5,7 +5,7 @@ import { MeshSurfaceSampler } from 'three/examples/jsm/math/MeshSurfaceSampler.j
 import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import Scene from '../scene';
 
-interface ConProps{
+interface ConProps {
     dom: HTMLCanvasElement
 }
 
@@ -30,8 +30,8 @@ export default class Sketch extends Scene {
     sunflower?: THREE.Mesh;
 
     constructor({ dom }: ConProps) {
-        super({dom});
-        
+        super({ dom });
+
         this.count = 1000;
         this.ages = new Float32Array(this.count);
         this.scales = new Float32Array(this.count);
@@ -72,7 +72,7 @@ export default class Sketch extends Scene {
                 if (m instanceof THREE.Mesh) {
                     m.castShadow = m.receiveShadow = true;
                     m.geometry.computeVertexNormals();
-                    if(t%4===0) m.material = new THREE.MeshStandardMaterial({ wireframe: true, color: 0x00ffff });
+                    if (t % 4 === 0) m.material = new THREE.MeshStandardMaterial({ wireframe: true, color: 0x00ffff });
                     gms.push(m.geometry)
                 }
             })
@@ -81,7 +81,7 @@ export default class Sketch extends Scene {
             this.finalMesh = new THREE.Mesh(finalGM, new THREE.MeshNormalMaterial());
             this.scene.add(this.tank);
 
-            this.loader?.load(sunflower, (gltf) => {    
+            this.loader?.load(sunflower, (gltf) => {
                 this.sunflower = gltf.scene.children[0].children[0].children[0] as THREE.Mesh;
                 this.addObject();
                 this.render();
@@ -89,9 +89,9 @@ export default class Sketch extends Scene {
             })
         })
     }
-    
+
     render() {
-        for (let i = 0; i < this.count; i++){
+        for (let i = 0; i < this.count; i++) {
             this.rescale(i);
         }
         this.flowers!.instanceMatrix.needsUpdate = true;
@@ -99,10 +99,10 @@ export default class Sketch extends Scene {
     }
 
     rescale(i: number) {
-        
+
         this.dummy.position.copy(this._positions[i]);
         let d = this.currentPoint?.distanceTo(this._positions[i])!;
-        
+
         if (d < 1) {
             this.growthSpeed[i] += 0.005;
         } else {
@@ -116,7 +116,7 @@ export default class Sketch extends Scene {
         this.dummy.lookAt(this._normals[i]);
         this.dummy.updateMatrix();
         this.flowers?.setMatrixAt(i, this.dummy.matrix);
-        
+
     }
 
     addObject() {
@@ -133,7 +133,7 @@ export default class Sketch extends Scene {
 
         this.flowers.receiveShadow = this.flowers.castShadow = true;
 
-        for (let i = 0; i < this.count; i++){
+        for (let i = 0; i < this.count; i++) {
             this.scales[i] = 0.1;
             this.growthSpeed[i] = 0;
 
@@ -143,15 +143,15 @@ export default class Sketch extends Scene {
             this.sampler && this.sampler.sample(this._position, this._normal);
             this._normal.add(this._position);
 
-            this.dummy.position.copy(this._position);
-            this.dummy.scale.set(this.scales[i], this.scales[i], this.scales[i]);
-            this.dummy.lookAt(this._normal);
-            this.dummy.updateMatrix();
+            // this.dummy.position.copy(this._position);
+            // this.dummy.scale.set(this.scales[i], this.scales[i], this.scales[i]);
+            // this.dummy.lookAt(this._normal);
+            // this.dummy.updateMatrix();
 
-            this.flowers.setMatrixAt(i, this.dummy.matrix);           
+            // this.flowers.setMatrixAt(i, this.dummy.matrix);           
 
         }
-        
+
         this.flowers.instanceMatrix.needsUpdate = true;
         this.scene.add(this.flowers)
     }
@@ -159,7 +159,7 @@ export default class Sketch extends Scene {
     addLights() {
         const light1 = new THREE.AmbientLight(0xffffff, 0.3);
 
-        const light2 = new THREE.DirectionalLight(0xffffff, 0.8*Math.PI);
+        const light2 = new THREE.DirectionalLight(0xffffff, 0.8 * Math.PI);
         light2.castShadow = true;
         light2.shadow.camera.near = 0.1;
         light2.shadow.camera.far = 20;

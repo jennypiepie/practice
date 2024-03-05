@@ -6,7 +6,7 @@ export default function Blossom() {
     const canvasRef = useRef<HTMLCanvasElement>(null);
 
     useEffect(() => {
-        const  sketch = canvasRef.current && new Sketch({ dom: canvasRef.current });
+        const sketch = canvasRef.current && new Sketch({ dom: canvasRef.current });
         return () => {
             sketch?.stop();
         }
@@ -21,9 +21,9 @@ export default function Blossom() {
                 z-10 pointer-events-none
             '>
                 <video className='w-full'
-                    src="/videos/02.mp4"
+                    src="/videos/1.mp4"
                     autoPlay muted
-                    id='video2'
+                    id='video'
                 />
             </div>
             <canvas id='canvas' ref={canvasRef} />

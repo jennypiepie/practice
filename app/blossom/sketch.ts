@@ -22,10 +22,11 @@ export default class Sketch extends Scene {
     bloomPass?: UnrealBloomPass;
     composer?: EffectComposer;
     video: HTMLVideoElement;
+    count: number = 1;
 
     constructor({ dom }: ConProps) {
         super({ dom });
-        this.video = document.getElementById('video2')! as HTMLVideoElement;
+        this.video = document.getElementById('video')! as HTMLVideoElement;
         this.settings = {
             distortion: 0,
             threshold: 0,
@@ -54,12 +55,12 @@ export default class Sketch extends Scene {
         })
         gsap.to(this.material!.uniforms.distortion, {
             duration: 2,
-            value: 2,
+            value: 1.5,
             ease: 'power2.inOut',
         })
         gsap.to(this.bloomPass!, {
             duration: 2,
-            strength: 7,
+            strength: 2,
             ease: 'power2.in',
         })
         gsap.to(this.material!.uniforms.distortion, {
@@ -75,6 +76,7 @@ export default class Sketch extends Scene {
             ease: 'power2.out',
             onComplete: () => {
                 this.video.currentTime = 0;
+                this.video.src = `/videos/${this.count % 3 + 1}.mp4`;
                 gsap.to(this.video, {
                     duration: 0.1,
                     opacity: 1,
@@ -82,7 +84,10 @@ export default class Sketch extends Scene {
                 })
                 setTimeout(() => {
                     this.video.play();
-                }, 200);
+                    this.material!.uniforms.ft.value = new THREE.TextureLoader().load(`/imgs/${(this.count + 1) % 3 + 1}-first.jpg`);
+                    this.material!.uniforms.et.value = new THREE.TextureLoader().load(`/imgs/${this.count % 3 + 1}-end.jpg`);
+                    this.count += 1;
+                }, 500);
             }
         })
     }
@@ -149,10 +154,9 @@ export default class Sketch extends Scene {
             uniforms: {
                 time: { value: 0 },
                 progress: { value: 0 },
-                ft: { value: new THREE.TextureLoader().load('/imgs/02-first.jpg') },
-                t: { value: new THREE.TextureLoader().load('/imgs/02-end.jpg') },
+                ft: { value: new THREE.TextureLoader().load(`/imgs/${this.count % 3 + 1}-first.jpg`) },
+                et: { value: new THREE.TextureLoader().load(`/imgs/${(this.count - 1) % 3 + 1}-end.jpg`) },
                 distortion: { value: 0 },
-
             },
             vertexShader: vertex,
             fragmentShader: fragment,
