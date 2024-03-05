@@ -31,7 +31,7 @@ export default class Sketch extends Scene {
     }
 
     setCamera() {
-        this.camera.position.set(2, 2, 2);
+        this.camera.position.set(0, 0, 2);
     }
 
     setRenderer() {
